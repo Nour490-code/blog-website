@@ -42,6 +42,24 @@ const createToken = id => {
         expiresIn: expireTime
     });
 }
+
+//Handling Errs
+const handleErr = (err) => {
+    console.log(err.message,err.code)
+    let errors = { email:'' , password: ''}
+    if(err.code === 11000){
+        errors.email = 'That email is already registered'
+        return errors
+    }
+    if(err.message.includes('User validation failed')){
+        Object.values(err.errors).forEach(({properties}) => {
+           errors[properties.path] = properties.message; 
+        })
+    }
+    return errors;
+}
+
+
 //Routes
     //Note: DB ERR Handling Still not working
 const {User} = require('./Models/User');
@@ -51,7 +69,9 @@ app.post('/signup',(req,res) => {
         password: req.body.password,
     }).save((err,user) => {
         if(err){
-            res.status(400).send(err)
+            const errs = handleErr(err);
+            console.log(errs)
+            res.status(400).json({errs})
         }else{
             const token = createToken(user._id)
             res.cookie('jwt', token,{httpOnly: true ,maxAge: expireTime * 1000})
