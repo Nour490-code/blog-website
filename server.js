@@ -75,7 +75,7 @@ app.post('/signup',(req,res) => {
         }else{
             const token = createToken(user._id)
             res.cookie('jwt', token,{httpOnly: true ,maxAge: expireTime * 1000})
-            res.redirect('login')
+            res.redirect('login') 
         }
      });
 })
