@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog</title>
+</head>
+<body>
+    <form id="form" action="/createblog" method="POST">
+        <label>Title</label>
+        <input  name= 'title' id="title" >
+        <div class="title"></div>
+        <label>Subject</label>
+        <input name='subject' type="text" id="subject">
+        <div class="subject"></div>
+        <label>Body</label>
+        <input  name='body' type="text" id="body">
+        <div class="body"></div>
+        <button type="submit"  id="submit">Create Blog</button>
+    <script>
+        const title = document.getElementById('title');
+        const subject = document.getElementById('subject');
+        const body = document.getElementById('body');
+        const form = document.getElementById('form')
+        const titleErr = document.querySelector('.title');
+        const subjectErr = document.querySelector('.subject')
+        const bodyErr = document.querySelector('.body')
+
+       form.addEventListener('submit',async (e) => {
+            e.preventDefault()
+            
+            titleErr.textContent = '';
+            subjectErr.textContent = '';
+            bodyErr.textContent = ''
+            
+            try{
+                const result = await fetch('/createblog',{
+                    method:"POST",
+                    body: JSON.stringify({
+                        title: title.value,
+                        subject: subject.value,
+                        body: body.value
+                    }),
+                    headers: {'Content-Type':"application/json"}
+                });
+                const data = await result.json();
+                console.log(data)
+                if (title.value === '') {
+                    titleErr.textContent = 'Please Enter A Title';
+                }else if(subject.value === ''){
+                    subjectErr.textContent = 'Please Enter A Subject';
+                }else if(body.value === ''){
+                    bodyErr.textContent = 'Please Enter A Body';
+                }
+                else{
+                    location.assign('/dashboard');
+                }
+            }catch (err){
+                console.log(err)
+            }
+        })
+    </script>
+</body>
+</html>

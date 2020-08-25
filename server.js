@@ -34,6 +34,7 @@ app.listen(PORT,() => console.log(`listening to port ${PORT}`));
 app.get('/',(req,res) => res.render('guest')) 
 app.get('/signup',(req,res) => res.render('signup'))
 app.get('/login',(req,res) => res.render('login'))
+app.get('/createblog',(req,res) => res.render('create'))
 app.get('/dashboard', (req,res) => res.render('dashboard'))
 
 
@@ -58,12 +59,20 @@ const handleErr = (err) => {
            errors[properties.path] = properties.message; 
         })
     }
+    //Login Errs
+
+    if(err.message === 'Incorrect Email'){
+        errors.email = 'Incorrect Email'
+    }
+    if(err.message === 'Incorrect Password'){
+        errors.password = 'Incorrect Password'
+    }
     return errors;
 }
 
 
 //Routes
-    //Note: DB ERR Handling Still not working
+
 const {User} = require('./Models/User');
 app.post('/signup',(req,res) => {
     const newUser = new User({
@@ -76,12 +85,32 @@ app.post('/signup',(req,res) => {
             res.json({user})
         }catch{
             const errs = handleErr(err);
-            console.log(errs)
+            console.log(err)
             res.status(400).json({errs})
         }
      });
 })
 
-app.post('/login',(req,res) => {
+app.post('/login',async (req,res) => {
     const { email,password } = req.body;
+    try{
+        const user = await User.login(email,password)
+        const token = createToken(user._id)
+        res.cookie('jwt', token,{httpOnly: true ,maxAge: expireTime * 1000})
+        res.status(200).json({user: user._id})
+    }catch(err){
+        const errs = handleErr(err)
+        res.status(400).json({errs})
+    }
+})
+
+const {Blog} = require('./Models/Blog');
+app.post('/createblog',(req,res) => {
+    const newBlog = new Blog({
+        title: req.body.title,
+        subject: req.body.subject,
+        body: req.body.body
+    }).save((err,blog) => {
+        res.json({blog})
+     });
 })
