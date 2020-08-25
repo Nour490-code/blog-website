@@ -6,22 +6,46 @@
     <title>Log in</title>
 </head>
 <body>
-    <form id="form">
+    <form id="form" action="/login" method="POST">
         <label>Email</label>
-        <input type="email" id="email">
+        <input required name= 'email' id="email" >
+        <div class="email"></div>
         <label>Password</label>
-        <input type="password" id="pass">
-        <button type="submit" id="submit">Log in</button>
-    </form>
-    <!-- <script>
+        <input required name='password' type="password" id="pass">
+        <div class="pass"></div>
+        <button type="submit"  id="submit">Log in</button>
+    <script>
         const email = document.getElementById('email');
         const pass = document.getElementById('pass');
         const form = document.getElementById('form')
+        const emailErr = document.querySelector('.email');
+        const passErr = document.querySelector('.pass')
 
-        form.addEventListener('submit', e => {
+       form.addEventListener('submit',async (e) => {
             e.preventDefault()
-            console.log(email.value,pass.value)
+            
+            emailErr.textContent = '';
+            passErr.textContent = '';
+            
+            try{
+                const result = await fetch('/login',{
+                    method:"POST",
+                    body: JSON.stringify({email: email.value,password: pass.value}),
+                    headers: {'Content-Type':"application/json"}
+                });
+                const data = await result.json();
+                console.log(data)
+                if (data.errs) {
+                    emailErr.textContent = data.errs.email;
+                    passErr.textContent = data.errs.password;
+                }
+                if (data.user) {
+                    location.assign('/dashboard');
+                }
+            }catch (err){
+                console.log(err)
+            }
         })
-    </script> -->
+    </script>
 </body>
 </html>

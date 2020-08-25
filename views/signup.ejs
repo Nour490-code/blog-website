@@ -8,10 +8,10 @@
 <body>
     <form id="form" action="/signup" method="POST">
         <label>Email</label>
-        <input name= 'email' id="email" >
+        <input required name= 'email' id="email" >
         <div class="email"></div>
         <label>Password</label>
-        <input name='password' type="password" id="pass">
+        <input required name='password' type="password" id="pass">
         <div class="pass"></div>
         <button type="submit"  id="submit">Sign up</button>
     </form>
@@ -23,7 +23,7 @@
         const passErr = document.querySelector('.pass')
 
         form.addEventListener('submit',async (e) => {
-            // e.preventDefault()
+            e.preventDefault()
             
             emailErr.textContent = '';
             passErr.textContent = '';
@@ -39,6 +39,9 @@
                 if (data.errs) {
                     emailErr.textContent = data.errs.email;
                     passErr.textContent = data.errs.password;
+                }
+                if (data.user) {
+                    location.assign('/dashboard');
                 }
             }catch (err){
                 console.log(err)

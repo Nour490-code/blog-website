@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken')
 
 //Set Middlewares
 app.set('view engine', 'ejs')
+app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
 //MongoDB Connection
@@ -33,6 +34,7 @@ app.listen(PORT,() => console.log(`listening to port ${PORT}`));
 app.get('/',(req,res) => res.render('guest')) 
 app.get('/signup',(req,res) => res.render('signup'))
 app.get('/login',(req,res) => res.render('login'))
+app.get('/dashboard', (req,res) => res.render('dashboard'))
 
 
 //Making JWT Tokens
@@ -45,7 +47,7 @@ const createToken = id => {
 
 //Handling Errs
 const handleErr = (err) => {
-    console.log(err.message,err.code)
+    //console.log(err.message,err.code)
     let errors = { email:'' , password: ''}
     if(err.code === 11000){
         errors.email = 'That email is already registered'
@@ -68,14 +70,18 @@ app.post('/signup',(req,res) => {
         email: req.body.email,
         password: req.body.password,
     }).save((err,user) => {
-        if(err){
+        try{
+            const token = createToken(user._id)
+            res.cookie('jwt', token,{httpOnly: true ,maxAge: expireTime * 1000})
+            res.json({user})
+        }catch{
             const errs = handleErr(err);
             console.log(errs)
             res.status(400).json({errs})
-        }else{
-            const token = createToken(user._id)
-            res.cookie('jwt', token,{httpOnly: true ,maxAge: expireTime * 1000})
-            res.redirect('login') 
         }
      });
+})
+
+app.post('/login',(req,res) => {
+    const { email,password } = req.body;
 })
