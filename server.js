@@ -5,8 +5,9 @@ const app =  express();
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
+const jwtDecode = require('jwt-decode');
 const {Auth} = require('./middleware/auth')
-const {GetID} = require('./middleware/getID')
+
 
 //Set Middlewares
 app.set('view engine', 'ejs')
@@ -110,14 +111,28 @@ app.post('/login',async (req,res) => {
         res.status(400).json({errs})
     }
 })
-const jwtDecode = require('jwt-decode');
+
+
+
+
+const addBlogToUser = (blog,ID) => {
+    User.findOneAndUpdate(ID,{$push : {blogs: {blog} }},{},
+        (err,result) => {
+            if (err){
+                console.log(err)
+            }else{
+                console.log(result)
+            }
+        }
+    )
+}
+
 const {Blog} = require('./Models/Blog');
 app.post('/createblog',(req,res) => {
     const x = req.cookies.jwt;
 
     const userID = jwtDecode(x).id;
     console.log(userID)
-
 
      User.findById(userID, (err,user) => {
         if(err){
@@ -128,8 +143,9 @@ app.post('/createblog',(req,res) => {
                 subject: req.body.subject,
                 body: req.body.body,
                 author: user.fullname
-            }).save((blog) => {
-                res.json({blog})
+            }).save((err,blog) => {
+                addBlogToUser(blog,userID)
+                res.send({blog})
             });
          }
     })
