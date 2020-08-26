@@ -6,6 +6,10 @@ const blogSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    author:{
+        type: String,
+        required: true,
+    },
     subject:{
         type: String,
         required: true

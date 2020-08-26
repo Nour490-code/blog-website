@@ -1,15 +1,19 @@
 //Requiring Packages
+require('dotenv').config();
 const express = require('express');
 const app =  express();
 const mongoose = require('mongoose');
-const env = require('dotenv').config();
 const jwt = require('jsonwebtoken')
-
+const cookieParser = require('cookie-parser')
+const {Auth} = require('./middleware/auth')
+const {GetID} = require('./middleware/getID')
 
 //Set Middlewares
 app.set('view engine', 'ejs')
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
+app.use(cookieParser())
+
 
 //MongoDB Connection
 const MONGOURL = process.env.DB_CONNECTION;
@@ -30,12 +34,6 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT,() => console.log(`listening to port ${PORT}`));
 
 
-//Rendering Pages
-app.get('/',(req,res) => res.render('guest')) 
-app.get('/signup',(req,res) => res.render('signup'))
-app.get('/login',(req,res) => res.render('login'))
-app.get('/createblog',(req,res) => res.render('create'))
-app.get('/dashboard', (req,res) => res.render('dashboard'))
 
 
 //Making JWT Tokens
@@ -73,11 +71,20 @@ const handleErr = (err) => {
 
 //Routes
 
+    //Rendering Pages
+app.get('/',(req,res) => res.render('guest')) 
+app.get('/signup',(req,res) => res.render('signup'))
+app.get('/login',(req,res) => res.render('login'))
+app.get('/createblog', Auth ,(req,res) => res.render('create'))
+app.get('/dashboard', Auth , (req,res) => res.render('dashboard'))
+
+
 const {User} = require('./Models/User');
 app.post('/signup',(req,res) => {
     const newUser = new User({
+        fullname: req.body.fullname,
         email: req.body.email,
-        password: req.body.password,
+        password: req.body.password
     }).save((err,user) => {
         try{
             const token = createToken(user._id)
@@ -103,14 +110,27 @@ app.post('/login',async (req,res) => {
         res.status(400).json({errs})
     }
 })
-
+const jwtDecode = require('jwt-decode');
 const {Blog} = require('./Models/Blog');
 app.post('/createblog',(req,res) => {
-    const newBlog = new Blog({
-        title: req.body.title,
-        subject: req.body.subject,
-        body: req.body.body
-    }).save((err,blog) => {
-        res.json({blog})
-     });
+    const x = req.cookies.jwt;
+
+    const userID = jwtDecode(x).id;
+    console.log(userID)
+
+
+     User.findById(userID, (err,user) => {
+        if(err){
+            console.log(err)
+        }else{
+            const newBlog = new Blog({
+                title: req.body.title,
+                subject: req.body.subject,
+                body: req.body.body,
+                author: user.fullname
+            }).save((blog) => {
+                res.json({blog})
+            });
+         }
+    })
 })
