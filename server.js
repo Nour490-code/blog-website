@@ -157,5 +157,5 @@ app.post('/createblog',(req,res) => {
             });
             console.log(user.email)
          }
-    })
+    }) 
 })
