@@ -47,7 +47,7 @@ const createToken = id => {
 
 //Handling Errs
 const handleErr = (err) => {
-    //console.log(err.message,err.code)
+    console.log(err.message,err.code)
     let errors = { email:'' , password: ''}
     if(err.code === 11000){
         errors.email = 'That email is already registered'
@@ -115,8 +115,8 @@ app.post('/login',async (req,res) => {
 
 
 
-const addBlogToUser = (blog,ID) => {
-    User.findOneAndUpdate(ID,{$push : {blogs: {blog} }},{},
+/*const addBlogToUser = (blog,name) => {
+    User.findOneAndUpdate(name,{$push : {blogs: {blog} }},{},
         (err,result) => {
             if (err){
                 console.log(err)
@@ -125,7 +125,7 @@ const addBlogToUser = (blog,ID) => {
             }
         }
     )
-}
+}*/
 
 const {Blog} = require('./Models/Blog');
 app.post('/createblog',(req,res) => {
@@ -144,9 +144,18 @@ app.post('/createblog',(req,res) => {
                 body: req.body.body,
                 author: user.fullname
             }).save((err,blog) => {
-                addBlogToUser(blog,userID)
+                User.findByIdAndUpdate(userID,{$push : {blogs: {blog} }}, {new: true},
+                    (err,result) => {
+                        if (err){
+                            console.log(err)
+                        }else{
+                            console.log(result)
+                        }
+                    }
+                )
                 res.send({blog})
             });
+            console.log(user.email)
          }
     })
 })
