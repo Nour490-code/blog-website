@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Blog</title>
-</head>
-<body>
+<%- include('./partials/header')-%> 
+
     <form id="form" action="/createblog" method="POST">
         <label>Title</label>
         <input  name= 'title' id="title" >
@@ -14,7 +8,7 @@
         <input name='subject' type="text" id="subject">
         <div class="subject"></div>
         <label>Body</label>
-        <input  name='body' type="text" id="body">
+        <textarea name="body" id="body" cols="30" rows="10"></textarea>
         <div class="body"></div>
         <button type="submit"  id="submit">Create Blog</button>
     <script>

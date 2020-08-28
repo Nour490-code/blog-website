@@ -73,11 +73,35 @@ const handleErr = (err) => {
 //Routes
 
     //Rendering Pages
-app.get('/',(req,res) => res.render('guest')) 
+    function getBlogs(page,res,title){
+        try{
+            Blog.find()
+            .then(result => res.render(page,{blogs: result,title:title}))
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+app.get('/',(req,res) => getBlogs('guest',res)) 
 app.get('/signup',(req,res) => res.render('signup'))
 app.get('/login',(req,res) => res.render('login'))
-app.get('/createblog', Auth ,(req,res) => res.render('create'))
-app.get('/dashboard', Auth , (req,res) => res.render('dashboard'))
+app.get('/createblog', Auth ,(req,res) => res.render('create',{title:'Create A Blog'}))
+app.get('/dashboard', Auth , async(req,res) => getBlogs('dashboard',res,'dashboard'))
+app.get('/profile',(req,res) =>{
+    const user = req.cookies.jwt;
+
+    const userID = jwtDecode(user).id;
+    User.findById(userID,(err,user) => {
+        if(err){
+            console.log(err)
+        }else{
+            Blog.find({author: user.fullname}, (err,blog) =>{
+                res.render('myprofile', {user, title: user.fullname, blogs: blog})
+                console.log(blog)
+            })
+        }
+    })
+})
 
 
 const {User} = require('./Models/User');
@@ -115,23 +139,11 @@ app.post('/login',async (req,res) => {
 
 
 
-/*const addBlogToUser = (blog,name) => {
-    User.findOneAndUpdate(name,{$push : {blogs: {blog} }},{},
-        (err,result) => {
-            if (err){
-                console.log(err)
-            }else{
-                console.log(result)
-            }
-        }
-    )
-}*/
-
 const {Blog} = require('./Models/Blog');
 app.post('/createblog',(req,res) => {
-    const x = req.cookies.jwt;
+    const user = req.cookies.jwt;
 
-    const userID = jwtDecode(x).id;
+    const userID = jwtDecode(user).id;
     console.log(userID)
 
      User.findById(userID, (err,user) => {
@@ -149,13 +161,30 @@ app.post('/createblog',(req,res) => {
                         if (err){
                             console.log(err)
                         }else{
-                            console.log(result)
+                            console.log('Done')
                         }
                     }
                 )
                 res.send({blog})
             });
-            console.log(user.email)
          }
     }) 
+})
+
+//API
+app.get('/api/blogs',async(req,res) => {
+    try{
+        const blogs = await Blog.find({});
+        res.json(blogs)
+    }catch(err){
+        console.log(err)
+    }
+})
+app.get('/api/users',async(req,res) => {
+    try{
+        const users = await User.find({});
+        res.json(users)
+    }catch(err){
+        console.log(err)
+    }
 })

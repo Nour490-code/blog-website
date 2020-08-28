@@ -1,0 +1,16 @@
+<%- include('./partials/header')-%>
+<h1><%= user.fullname %></h1>
+<div>
+    <h1>My Blogs</h1>
+    <% if(blogs.length > 0){ %>
+        <% blogs.forEach(blog => { %>
+            <h3><%= blog.title %></h3>
+            <h4><%= blog.subject %></h4>
+            <p><%= blog.body %></p>
+        <% }) %>
+    <% } else { %>
+        <p>There are no blogs at the moment</p>
+    <%}%>
+</div>
+</body>
+</html>
