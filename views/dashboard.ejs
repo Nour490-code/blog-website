@@ -5,6 +5,7 @@
         <span><%= blog.author %></span>
         <h4><%= blog.subject %></h4>
         <p><%= blog.body %></p>
+        <a href='/blogs/<%= blog._id %> '>Read More</a>
     <% }) %>
 <% } else { %>
     <p>There are no blogs at the moment</p>
