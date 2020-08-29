@@ -84,7 +84,7 @@ app.get("/createblog", Auth, (req, res) =>
   res.render("create", { title: "Create A Blog" })
 );
 app.get("/dashboard", Auth, async (req, res) =>
-  getBlogs("dashboard", res, "dashboard")
+  getBlogs("dashboard", res, "Dashboard")
 );
 app.get("/profile/:email", (req, res) => {
   const user = req.cookies.jwt;
@@ -155,6 +155,13 @@ app.post("/login", async (req, res) => {
     res.status(400).json({ errs });
   }
 });
+
+app.get('/logout',(req,res) => {
+    res.cookie('jwt','',{maxAge:1})
+    res.redirect('/')
+})
+
+
 
 const { Blog } = require("./Models/Blog");
 app.post("/createblog", (req, res) => {
