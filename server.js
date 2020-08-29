@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 //MongoDB Connection
-const MONGOURL = process.env.DB_CONNECTION;
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -23,7 +22,7 @@ const options = {
 };
 
 mongoose
-  .connect(MONGOURL, options)
+  .connect(process.env.DB_CONNECTION, options)
   .then(() => console.log("Connected to mongodb!"))
   .catch((err) => console.log(err));
 mongoose.set("useCreateIndex", true);
