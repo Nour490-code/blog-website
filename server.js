@@ -1,5 +1,5 @@
 //Requiring Packages
-require("dotenv").config();
+const dotenv = require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -20,7 +20,7 @@ const options = {
   useUnifiedTopology: true,
   useFindAndModify: false,
 };
-
+//console.log(dotenv.parsed)
 mongoose
   .connect(process.env.DB_CONNECTION, options)
   .then(() => console.log("Connected to mongodb!"))
