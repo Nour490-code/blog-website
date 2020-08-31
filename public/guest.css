@@ -1,0 +1,71 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #C4C4C4;
+    padding: 0.5rem 0 ;
+}
+h1{
+    margin-left: 6rem;
+    font-weight: 400;
+}
+nav{
+    margin-left: 50rem;
+}
+ul{
+    display: flex;
+    flex-direction: row;
+}
+li{
+    list-style: none;
+    margin-right: 2rem;
+    padding: 0.15rem 1rem;
+    font-size: 0.95em;
+    border-radius: 15px;
+}
+a{
+    color: #000000;
+    text-decoration: none;
+}
+.signup{
+    background: #ffffff;
+}
+.login{
+    border: 2px solid #ffffff;
+}
+.blog{
+    background: rgb(196, 196, 196,17%);
+    width: 90%;
+    margin: 0 0 2rem 6rem;
+    padding: 0.8rem 2rem;
+    border-radius: 7px;
+}
+.blog:first-child{
+    margin-top: 4rem;
+}
+.container .title{
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+}
+.container .author{
+    font-weight: 400;
+    font-size: 0.82em;
+}
+.container .description{
+    font-weight: 300;
+    margin: 1rem 0;
+    font-size: 0.88em;
+}
+.read-more{
+    background: #C4C4C4;
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.84em;
+}

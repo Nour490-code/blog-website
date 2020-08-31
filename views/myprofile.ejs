@@ -5,8 +5,8 @@
     <% if(blogs.length > 0){ %>
         <% blogs.forEach(blog => { %>
             <h3><%= blog.title %></h3>
-            <h4><%= blog.subject %></h4>
-            <p><%= blog.body %></p>
+            <h4><%= blog.description %></h4>
+            <a href='/blogs/<%= blog._id %> '>Read More</a>
         <% }) %>
     <% } else { %>
         <p>You didn't publish any blogs yet</p>

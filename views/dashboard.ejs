@@ -3,8 +3,7 @@
     <% blogs.forEach(blog => { %>
         <h3><%= blog.title %></h3>
         <span><%= blog.author %></span>
-        <h4><%= blog.subject %></h4>
-        <p><%= blog.body %></p>
+        <h4><%= blog.description %></h4>
         <a href='/blogs/<%= blog._id %> '>Read More</a>
     <% }) %>
 <% } else { %>
