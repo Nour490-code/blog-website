@@ -102,11 +102,16 @@ app.get("/profile/:email", (req, res) => {
 });
 app.get("/blogs/:id", (req, res) => {
     const blogID = req.params.id;
-    Blog.findById(blogID, (err, blog) => {
+    Blog.findById(blogID, async (err, blog) => {
+      const user = await req.cookies.jwt;
         if (err) {
           console.log(err);
         } else {
-           res.render('blog',{blog,title: blog.title})
+          if(user){
+            res.render('usershowblog',{blog,title: blog.title})
+          }else{
+            res.render('guestblog',{blog,title: blog.title})
+          }
         }
       });
   });
