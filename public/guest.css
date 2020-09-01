@@ -69,3 +69,31 @@ a{
     border-radius: 5px;
     font-size: 0.84em;
 }
+@media(max-width: 575.98px){
+    h1{
+        font-size: 1.5em;
+        margin-left: 1rem;
+    }
+    nav{
+        margin-left: 3rem;
+    }
+    li {
+        margin-right: 1rem;
+        font-size: 0.8em;
+    }
+    .blog {
+        margin: 0 0 2rem 1rem;
+    }
+    .container .title {
+        font-size: 1.1em;
+    }
+    .container .author {
+        font-size: .85em;
+    }
+    .container .description {
+        font-size: 0.83em;
+    }
+    .read-more {
+        font-size: 0.79em;
+    }
+}
