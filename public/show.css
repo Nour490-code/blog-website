@@ -1,0 +1,18 @@
+.show{
+    margin-top: 4rem;
+    padding: 2rem 0rem 2rem 3rem;
+}
+.title1{
+    margin: 0rem 0rem 1rem 0rem;
+}
+.body1{
+    margin-top: 1.5rem;
+}
+@media screen and (max-width:575.98px){
+    .show{
+        padding: 2rem 0rem 2rem 1rem;
+    }
+    .body1{
+        line-height: 1.5rem;
+    }
+}

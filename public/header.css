@@ -2,17 +2,23 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
 }
-li{
+.nav li{
     list-style: none;
-    margin-right: 1rem;
+    margin-right: 2rem;
 }
 a{
     color: #000000;
     text-decoration: none;
+    transition: all .5s;
 }
-h1{
-    margin-left: 3rem;
+a:hover{
+    color: rgba(68, 68, 68, 0.506)
+}
+header h1{
+    margin-left: 6rem;
+    font-weight: 400;
 }
 header{
     display: flex;
@@ -22,9 +28,19 @@ header{
     padding: 0.5rem 0 ;
 }
 nav{
-    margin-left: 40rem;
+    margin-left: 43rem;
 }
 ul{
     display: flex;
     flex-direction: row;
+}
+
+@media screen and (max-width:575.98px){
+    header h1{
+        margin-left: .5rem;
+    }
+    .nav li{
+      font-size: 0.48em;
+      margin-right: 1rem;
+    }
 }

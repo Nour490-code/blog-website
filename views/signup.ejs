@@ -1,62 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
-</head>
-<body>
-    <form id="form" action="/signup" method="POST">
-        <label>Fullname</label>
-        <input required name= 'fullname' id="fullname" >
-        <div class="fullname"></div>
-        <label>Email</label>
-        <input required name= 'email' id="email" >
-        <div class="email"></div>
-        <label>Password</label>
-        <input required name='password' type="password" id="pass">
-        <div class="pass"></div>
-        <button type="submit"  id="submit">Sign up</button>
-    </form>
-    <script>
-        const fullname = document.getElementById('fullname'); 
-        const email = document.getElementById('email');
-        const pass = document.getElementById('pass');
-        const form = document.getElementById('form')
-        const emailErr = document.querySelector('.email');
-        const passErr = document.querySelector('.pass')
-        const nameErr = document.querySelector('.fullname')
-
-        form.addEventListener('submit',async (e) => {
-            e.preventDefault()
-            
-            emailErr.textContent = '';
-            passErr.textContent = '';
-            nameErr.textContent = '';
-            
-            try{
-                const result = await fetch('/signup',{
-                    method:"POST",
-                    body: JSON.stringify({
-                        email: email.value,
-                        password: pass.value,
-                        fullname: fullname.value
-                    }),
-                    headers: {'Content-Type':"application/json"}
-                });
-                const data = await result.json();
-                console.log(data)
-                if (data.errs) {
-                    emailErr.textContent = data.errs.email;
-                    passErr.textContent = data.errs.password;
-                }
-                if (data.user) {
-                    location.assign('/dashboard');
-                }
-            }catch (err){
-                console.log(err)
-            }
-        })
-    </script>
+<%- include('./partials/guestheader')-%>
+    <div class="signup-container">
+        <div class="form">
+            <h1 class="head">Sign Up</h1>
+            <form id="form" action="/signup" method="POST">
+                <div class="inputs">
+                    <label class="label">Fullname</label>
+                    <input required name= 'fullname' id="fullname" >
+                    <div class="fullname"></div>
+                </div>
+                <div class="inputs">
+                    <label class="label">Email</label>
+                    <input required name= 'email' id="email" >
+                    <div class="email"></div>
+                </div>
+                <div class="inputs">
+                    <label class="label">Password</label>
+                    <input required name='password' type="password" id="pass">
+                    <div class="pass"></div>
+                </div>
+                <button class="submit" type="submit"  id="submit">Sign up</button>
+            </form>
+            <a class="redirect"  href="/login">Already have an account?</a>
+        </div>
+    </div>
+    <script src="/js/signup.js"></script>
 </body>
 </html>

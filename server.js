@@ -67,24 +67,24 @@ const handleErr = (err) => {
 //Routes
 
 //Rendering Pages
-function getBlogs(page, res, title) {
+function getBlogs(page, res, title, css) {
   try {
     Blog.find().then((result) =>
-      res.render(page, { blogs: result, title: title })
+      res.render(page, { blogs: result, title: title, css: css  })
     );
   } catch (err) {
     console.log(err);
   }
 }
 
-app.get("/", (req, res) => getBlogs("guest", res));
-app.get("/signup", (req, res) => res.render("signup"));
-app.get("/login", (req, res) => res.render("login"));
+app.get("/", (req, res) => getBlogs("guest", res , '/guest.css'));
+app.get("/signup", (req, res) => res.render("signup",{ title: "Sign Up" , css: "/signup-login.css"}));
+app.get("/login", (req, res) => res.render("login",{ title: "Login", css: "/signup-login.css"}));
 app.get("/createblog", Auth, (req, res) =>
   res.render("create", { title: "Create A Blog" })
 );
 app.get("/dashboard", Auth, async (req, res) =>
-  getBlogs("dashboard", res, "Dashboard")
+  getBlogs("dashboard", res, "Dashboard",  '/blog.css')
 );
 app.get("/profile/:email", (req, res) => {
   const user = req.cookies.jwt;
@@ -108,9 +108,9 @@ app.get("/blogs/:id", (req, res) => {
           console.log(err);
         } else {
           if(user){
-            res.render('usershowblog',{blog,title: blog.title})
+            res.render('usershowblog',{blog,title: blog.title, css:'/show.css'})
           }else{
-            res.render('guestblog',{blog,title: blog.title})
+            res.render('guestblog',{blog,title: blog.title, css:'/show.css'})
           }
         }
       });

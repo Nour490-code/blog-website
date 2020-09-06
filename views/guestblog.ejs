@@ -1,8 +1,11 @@
 <%- include('./partials/guestheader') %> 
-<div>
-    <h1><%= blog.title %> </h1>
-    <span><%= blog.author %> </span>
-    <p><%= blog.body %> </p>
+<div class="container">
+    <div class="blog show">
+        <h1 class="title1"><%= blog.title %> </h1>
+        <span><%= blog.author %> </span>
+        <p class="description"><%= blog.description %></p>
+        <p class="body1"><%= blog.body %> </p>
+    </div>
 </div>
 </body>
 </html> 
