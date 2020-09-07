@@ -95,7 +95,7 @@ app.get("/profile/:email", (req, res) => {
       console.log(err);
     } else {
       Blog.find({ author: user.fullname }, (err, blog) => {
-        res.render("myprofile", { user, title: user.fullname, blogs: blog });
+        res.render("myprofile", { user, title: user.fullname, blogs: blog, css: '/profile.css',length: blog.length });
       });
     }
   });

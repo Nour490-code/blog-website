@@ -1,12 +1,20 @@
 <%- include('./partials/header')-%>
-<h1><%= user.fullname %></h1>
-<div> 
-    <h1>My Blogs</h1>
+<div class="blog profile-container">
+    <h1 class="prof-head">Profile</h1>
+    <h4 class="details">Fullname: <span><%= user.fullname %> </span></h5>
+    <h4 class="details">You Have Published: <span><%= length %> blogs</span></h5>
+    <h4 class="details">Email: <span><%= user.email %> </span></h5>
+</div>
+
+<div class="container"> 
+    <h1 class="myblogs">My Blogs</h1>
     <% if(blogs.length > 0){ %>
         <% blogs.forEach(blog => { %>
-            <h3><%= blog.title %></h3>
-            <h4><%= blog.description %></h4>
-            <a href='/blogs/<%= blog._id %> '>Read More</a>
+            <div class="blog">
+                <h3 class="title"><%= blog.title %></h3>
+                <h4 class="description"><%= blog.description %></h4>
+                <a class="read-more" href='/blogs/<%= blog._id %> '>Read More</a>
+            </div>
         <% }) %>
     <% } else { %>
         <p>You didn't publish any blogs yet</p>
