@@ -1,60 +1,25 @@
 <%- include('./partials/header')-%> 
-
+<div class="create-blog">
+    <h1 class="create-title">Create A Blog</h1>
     <form id="form" action="/createblog" method="POST">
-        <label>Title</label>
-        <input  name= 'title' id="title" >
-        <div class="title"></div>
-        <label>description</label>
-        <input name='description' type="text" id="description">
-        <div class="description"></div>
-        <label>Body</label>
-        <textarea name="body" id="body" cols="30" rows="10"></textarea>
-        <div class="body"></div>
+        <div class="inputs">
+            <label>Title</label>
+            <input  name= 'title' id="title" >
+            <div class="title"></div>
+        </div>
+        <div class="inputs">
+            <label>Description</label>
+            <textarea name='description' cols="30" rows="5" type="text" id="description"></textarea>
+            <div class="description"></div>
+        </div>
+        <div class="inputs">
+            <label>Body</label>
+            <textarea name="body" id="body" cols="30" rows="10"></textarea>
+            <div class="body"></div>
+        </div>
         <button type="submit"  id="submit">Create Blog</button>
-    <script>
-        const title = document.getElementById('title');
-        const description = document.getElementById('description');
-        const body = document.getElementById('body');
-        const form = document.getElementById('form')
-        const titleErr = document.querySelector('.title');
-        const descriptionErr = document.querySelector('.description')
-        const bodyErr = document.querySelector('.body')
-
-        
-
-       form.addEventListener('submit',async (e) => {
-            e.preventDefault()
-            
-            titleErr.textContent = '';
-            descriptionErr.textContent = '';
-            bodyErr.textContent = ''
-            
-            try{
-                const result = await fetch('/createblog',{
-                    method:"POST",
-                    body: JSON.stringify({
-                        title: title.value,
-                        description: description.value,
-                        body: body.value
-                    }),
-                    headers: {'Content-Type':"application/json"}
-                });
-                const data = await result.json();
-                console.log(data)
-                if (title.value === '') {
-                    titleErr.textContent = 'Please Enter A Title';
-                }else if(description.value === ''){
-                    descriptionErr.textContent = 'Please Enter A description';
-                }else if(body.value === ''){
-                    bodyErr.textContent = 'Please Enter A Body';
-                }
-                else{
-                    location.assign('/dashboard');
-                }
-            }catch (err){
-                console.log(err)
-            }
-        })
-    </script>
+    </form>
+</div>
+    <script src="/js/createblog.js"></script>
 </body>
 </html>

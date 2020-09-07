@@ -1,0 +1,51 @@
+.create-blog{
+    margin: 2rem 0 0 6rem;
+}
+input,textarea{
+    margin-bottom: 1rem;
+}
+input,textarea:focus{
+    outline: none;
+}
+textarea{
+    width: 50%;
+    padding: 0.5rem 1rem;
+}
+input{
+    width: 20%;
+    padding: 0.1rem 0.5rem;
+}
+.create-title{
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+}
+button{
+    padding: 0.2rem 0.7rem;
+}
+@media(max-width: 575.98px){
+    .create-blog{
+        margin: 2rem 0 0 0.5rem;
+    }
+    .create-title{
+        margin-left:0;
+    }
+    input,textarea{
+        margin-bottom: 1.7rem;
+    }
+    label{
+        margin-bottom: 0.5rem;
+    }
+    .inputs,button{
+       margin-left: 0.8rem;
+    }
+    input{
+        width: 70%;
+    }
+    textarea{
+        width: 70%;
+    }
+}

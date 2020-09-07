@@ -81,7 +81,7 @@ app.get("/", (req, res) => getBlogs("guest", res , '/guest.css'));
 app.get("/signup", (req, res) => res.render("signup",{ title: "Sign Up" , css: "/signup-login.css"}));
 app.get("/login", (req, res) => res.render("login",{ title: "Login", css: "/signup-login.css"}));
 app.get("/createblog", Auth, (req, res) =>
-  res.render("create", { title: "Create A Blog" })
+  res.render("create", { title: "Create A Blog", css: '/createblog.css' })
 );
 app.get("/dashboard", Auth, async (req, res) =>
   getBlogs("dashboard", res, "Dashboard",  '/blog.css')
