@@ -2,6 +2,7 @@
 const dotenv = require("dotenv").config();
 const express = require("express");
 const app = express();
+const methodOverride = require('method-override');
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static('public'))
+app.use(methodOverride('_method'))
 
 //MongoDB Connection
 const options = {
@@ -127,7 +129,11 @@ app.get("/profile", (req, res) => {
         res.redirect(`/profile/${user.email}`);
     }
   });
-});
+})
+app.delete('/blog/:_id', async (req,res) => {
+  await Blog.findByIdAndDelete(req.params._id)
+  res.redirect('/profile')
+})
 
 const { User } = require("./Models/User");
 app.post("/signup", (req, res) => {

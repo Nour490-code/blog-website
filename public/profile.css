@@ -18,7 +18,23 @@ span{
 .profile-container{
     margin: 1.7rem 0 4rem 6rem;
 }
-
+.btns{
+    display: flex;
+    flex-direction: row;
+}
+.delete{
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.84em;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    margin-left: 1rem;
+    transition: .5s all;
+}
+.delete:hover{
+    background-color: rgb(231, 231, 231);
+}
 @media(max-width: 575.98px){
     .profile-container{
         margin: 1.7rem 0 2rem .5rem;
