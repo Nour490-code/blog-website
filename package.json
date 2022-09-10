@@ -8,7 +8,7 @@
     "start": "node server.js"
   },
   "author": "Noureldin Ghazy",
-  "license": "ISC",
+  "license": "MIT",
   "engines":{
     "node":"0.4.x"
   },
