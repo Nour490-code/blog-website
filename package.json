@@ -10,7 +10,7 @@
   "author": "Noureldin Ghazy",
   "license": "MIT",
   "engines":{
-    "node":"0.4.x"
+    "node":"14.x"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
